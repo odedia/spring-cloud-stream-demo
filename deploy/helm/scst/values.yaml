@@ -1,0 +1,114 @@
+# Default values for scst.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+sink:
+  image:
+    # repository: harbor.pks.pvtl.eu/mytelco/scst-sink
+    # tag: latest
+    repository: harbor.pks.pvtl.eu/mytelco/scst-sink
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 4
+  config: |-
+    # config settings loaded from values
+
+source:
+  image:
+    # repository: harbor.pks.pvtl.eu/mytelco/scst-source
+    # tag: latest
+    repository: harbor.pks.pvtl.eu/mytelco/scst-source
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 4
+  config: |-
+    # config settings loaded from values
+
+processor:
+  image:
+    # repository: harbor.pks.pvtl.eu/mytelco/scst-processor
+    # tag: latest
+    repository: harbor.pks.pvtl.eu/mytelco/scst-processor
+    tag: latest
+    pullPolicy: Always
+  replicaCount: 4
+  config: |-
+    # config settings loaded from values
+
+
+
+
+prometheus:
+  enabled: false
+
+
+nameOverride: ""
+fullnameOverride: ""
+
+rbac:
+  enabled: true
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+  paths:
+    - path: /source
+      service: source
+    - path: /processor
+      service: processor
+    - path: /sink
+      service: sink
+  hosts:
+    - cofee.demo.paulczar.wtf
+  tls: []
+#  - secretName: coffee-tls
+#    hosts:
+#      - cofee.demo.paulczar.wtf
+
+resources: 
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    memory: 1Gi
+  # cpu: 100m
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+cp-helm-charts:
+  enabled: true
+  persistence:
+    enabled: false
+
+
+kafka:
+  url: kafka.run.haas-215.pez.pivotal.io
+  enabled: false
+  persistence:
+    enabled: false
+#  advertisedListeners: PLAINTEXT://coffee-kafka:9092
+  zookeeper:
+    persistence:
+      enabled: false
+
+zookeeper:
+  persistence:
+    enabled: false
+
+prometheus:
+  enabled: false
+
+grafana:
+  enabled: false

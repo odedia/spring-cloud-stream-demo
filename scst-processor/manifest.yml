@@ -1,0 +1,10 @@
+---
+applications:
+- name: processor
+  memory: 768M
+  instances: 1
+  random-route: true
+  path: target/scst-processor-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack_offline
+  services:
+  - rabbitmq
